@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 一些struts2系统常见的全局配置参数 -->
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.serve.static.browserCache" value="false"></constant>
+	<constant name="struts.devMode" value="true"></constant>
+	
+	<!-- 全局国际化文件位置 -->
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+
+	<!-- 加载配置文件 -->
+	<include file="struts-common.xml" />
+	<include file="struts-history.xml" />
+	<include file="struts-goods.xml" />
+	<include file="struts-store.xml" />
+	<include file="struts-userinfo.xml" />
+</struts>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/cache 
+	http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+	<!-- 第二部分:事务管理及切面扩展部分 -->
+
+	<!-- 事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 方式一:这个是传统的AOP切面的方式实现事务交给spring管理的的配置 -->
+	<!-- 配置Advice -->
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED"
+				read-only="false" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置切面:这里将service包中的全部方法交给spring的事务管理器管理了 -->
+	<aop:config>
+		<aop:advisor advice-ref="transactionAdvice"
+			pointcut="execution(* cn.itcast.storemanage.service..*.*(..))" />
+	</aop:config>
+
+
+
+	<!-- 方式一:传统的方式实现AOP -->
+	<bean id="myMethodAdvice" class="cn.itcast.storemanage.web.aspact.MyMethodAspact"
+		scope="prototype" />
+	<!-- 方式一:配置切面 -->
+	<aop:config>
+		<!-- -->
+		<aop:pointcut expression="execution(* cn.itcast.storemanage.service..*(..))"
+			id="myMethodPointcut" />
+		<aop:advisor advice-ref="myMethodAdvice" pointcut-ref="myMethodPointcut" />
+	</aop:config>
+
+
+
+	<!-- 方式二:使用AspactJ -->
+	<!-- 配置切面源bean -->
+	<bean id="myAspactJAdvice" class="cn.itcast.storemanage.web.aspact.MyAspactJAspact" />
+
+	<!-- 方式二:配置切面目标 ,下面的ref 是引用定义切面类 -->
+	<aop:config proxy-target-class="true">
+		<aop:aspect ref="myAspactJAdvice">
+			<aop:pointcut
+				expression="execution(* cn.itcast.storemanage.dao.impl.HistoryDAOImpl.*(*,int,int))"
+				id="myAspactJPointCut" />
+			<!-- 前置通知 -->
+			<aop:before method="beforeAdvice1" pointcut-ref="myAspactJPointCut" />
+			<aop:before method="beforeAdvice2" pointcut-ref="myAspactJPointCut" />
+			<!-- 指定切面的被切对象为login(Userinfo)登陆后执行的方法 -->
+			<aop:pointcut
+				expression="execution(* cn.itcast.storemanage.service.impl.UserinfoServiceImpl.*(cn.itcast.storemanage.domain.Userinfo))"
+				id="myAspactJPointCut2" />
+			<!-- 环绕通知 -->
+			<aop:around method="around" pointcut-ref="myAspactJPointCut" />
+			
+			<!-- 后置通知(这里需要指定返回值是什么!!!) -->
+			<aop:after-returning method="afterReturning" pointcut-ref="myAspactJPointCut2" returning="result"/>
+			
+			<!-- 异常通知,throwing属性，配置发生异常后，捕获的异常对象参数名称ex（和方法一致） -->
+			<aop:after-throwing method="afterThrowing"
+				throwing="ex" pointcut-ref="myAspactJPointCut" />
+			<!-- 最终通知 (没用)-->
+			<aop:after method="after" pointcut-ref="myAspactJPointCut" />
+		</aop:aspect>
+	</aop:config>
+
+
+
+	<!-- 第三部分:相关的Action和其他Bean的配置信息 -->
+
+	<!-- 配置UserinfoService信息 -->
+	<bean id="userinfoService" class="cn.itcast.storemanage.service.impl.UserinfoServiceImpl">
+		<property name="userinfoDAO" ref="userinfoDAO"></property>
+	</bean>
+
+	<!-- 配置StoreService信息 -->
+	<bean id="storeService" class="cn.itcast.storemanage.service.impl.StoreServiceImpl">
+		<property name="storeDAO" ref="storeDAO"></property>
+	</bean>
+
+	<!-- 配置goodsService信息 -->
+	<bean id="goodsService" class="cn.itcast.storemanage.service.impl.GoodsServiceImpl">
+		<property name="goodsDAO" ref="goodsDAO"></property>
+		<property name="historyDAO" ref="historyDAO"></property>
+	</bean>
+
+	<!-- 配置historyService信息 -->
+	<bean id="historyService" class="cn.itcast.storemanage.service.impl.HistoryServiceImpl">
+		<property name="historyDAO" ref="historyDAO"></property>
+	</bean>
+
+	<!-- 第四部分:spring的Ecache缓存配置部分 -->
+
+	<!-- spring对ehcache的缓存工厂支持 -->
+	<bean id="ehCacheManagerFactory"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml" />
+		<property name="shared" value="false" />
+	</bean>
+
+	<!-- spring对ehcache的缓存管理 -->
+	<bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehCacheManagerFactory"></property>
+	</bean>
+
+	<!-- 使用ehcache 缓存 -->
+	<cache:annotation-driven cache-manager="ehCacheManager" />
+
+</beans>

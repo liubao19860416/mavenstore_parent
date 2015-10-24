@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="cn.itcast.storemanage.domain.Goods" table="goods" catalog="storemanager">
+        <id name="id" type="java.lang.String">
+            <column name="id" length="32" />
+            <generator class="uuid" />
+        </id>
+        <many-to-one name="store" class="cn.itcast.storemanage.domain.Store" fetch="select">
+            <column name="storeid" length="32" />
+        </many-to-one>
+        <property name="name" type="java.lang.String">
+            <column name="name" length="50" />
+        </property>
+        <property name="nm" type="java.lang.String">
+            <column name="nm" length="10" />
+        </property>
+        <property name="unit" type="java.lang.String">
+            <column name="unit" length="10" />
+        </property>
+        <property name="amount" type="java.lang.Double">
+            <column name="amount" precision="10" not-null="true" />
+        </property>
+        <set name="histories" inverse="true">
+            <key>
+                <column name="goodsid" length="32" />
+            </key>
+            <one-to-many class="cn.itcast.storemanage.domain.History" />
+        </set>
+    </class>
+    
+    <query name="goods.findAll">from Goods g order by g.amount desc,g.name asc </query>
+    <query name="goods.findByNm">from Goods where nm=?</query>
+    <query name="goods.findById">from Goods where id=?</query>
+    <query name="goods.findAllNames">select name from Goods</query>
+    <!-- 查询所有的商品单位信息,自动补全提示,这里需要自动去除重复信息 -->
+    <query name="goods.findUnitLike">select unit from Goods</query>
+    <!-- 这里不可以添加模糊查询符号% -->
+    <query name="goods.findSearchedGoods">from Goods g where name like ? order by g.amount desc, g.name asc </query>
+</hibernate-mapping>

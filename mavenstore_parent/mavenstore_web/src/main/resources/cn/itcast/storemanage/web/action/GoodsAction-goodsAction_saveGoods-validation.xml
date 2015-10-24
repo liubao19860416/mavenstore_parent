@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<!--系统自动进行加载 -->
+<validators>
+	<field name="nm">
+		<field-validator type="requiredstring">
+			<message key="goods.nm.required" />
+		</field-validator>
+	</field>
+	<field name="name">
+		<field-validator type="requiredstring">
+			<message key="goods.name.required" />
+		</field-validator>
+	</field>
+	<field name="unit">
+		<field-validator type="requiredstring">
+		<message key="goods.unit.required" />
+		</field-validator>
+	</field>
+	
+	<!-- 仓库校验,这里对于存在的商品不起作用,因为存在的商品是有对应的仓库id的 -->
+	<field name="store.id">
+		<field-validator type="requiredstring" >
+		<message key="goods.store.id.required" />
+		</field-validator>
+	</field>
+	
+	<!-- 
+	double的类型校验名称需要注意一下
+	 -->
+	<field name="amount">
+		<field-validator type="double">
+		<param name="minExclusive">0.0</param>
+		<param name="maxInclusive">1000.0</param>
+			<message key="goods.amount.saverange"></message>
+		</field-validator>
+	</field>
+</validators>

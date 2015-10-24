@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+	<!-- 硬盘缓存区位置 -->
+    <diskStore path="java.io.tmpdir"/>
+	
+	<!-- 默认缓存配置 -->
+    <defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+    
+     <!-- 缓存区域1仓库store查询缓存 -->
+     <cache name="store_ehcache" 
+    		maxElementsInMemory="10000" 
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+    ></cache>
+    
+     <!-- 缓存区域2库存默认显示查询缓存 -->
+     <cache name="goods_ehcache" 
+    		maxElementsInMemory="10000" 
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+    ></cache>
+    
+    
+    
+</ehcache>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<!--系统自动进行加载 -->
+<!-- 出库其实只做nm佳偶an即可;但为了保险,这里name和acount也做了校验 -->
+<validators>
+	<field name="nm">
+		<field-validator type="requiredstring">
+			<message key="goods.nm.required" />
+		</field-validator>
+	</field>
+	<field name="name">
+		<field-validator type="requiredstring">
+			<message key="goods.name.required" />
+		</field-validator>
+	</field>
+	
+	<!-- disabled的属性,在提交的时候,时不会被提交的,所以这些disabled的属性不需要进行验证 -->
+	<!-- 
+	<field name="unit">
+		<field-validator type="requiredstring">
+		<message key="goods.unit.required" />
+		</field-validator>
+	</field>
+	 -->
+	
+	<!-- 仓库校验,原因同上 -->
+	<!-- 
+	<field name="store.id">
+		<field-validator type="requiredstring">
+		<message key="goods.store.id.required" />
+		</field-validator>
+	</field>
+	 -->
+	
+	<field name="amount">
+		<field-validator type="double">
+		<param name="minExclusive">0.0</param>
+		<param name="maxInclusive">1000.0</param>
+			<message key="goods.amount.outrange"></message>
+		</field-validator>
+	</field>
+
+</validators>

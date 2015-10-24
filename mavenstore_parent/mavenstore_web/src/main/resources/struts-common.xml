@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置登录的公共的配置文件部分 -->
+	<package name="commonPackage" namespace="/" extends="json-default">
+		<!-- 如果未登陆 定义全局结果集 -->
+		<interceptors>
+		<!-- 这里的class是引用挂在spring配置文件中配置的拦截器id名称 -->
+			<interceptor name="userinfoCheck_Session_Interceptor"
+				class="userinfoCheck_Session_Interceptor" />
+			<!-- class="cn.itcast.storemanage.web.interceptor.UserinfoCheck_Session_Interceptor" 
+				/> -->
+				
+			<!-- 可以添加公共功能的拦截器在这个公共的包里,这样其他的每一个包里都会生效 -->
+			<interceptor-stack name="myDefaultStack">
+				<!-- 配置引用的默认拦截器,需要将自定义的拦截器放到系统默认的拦截器前面 -->
+				<interceptor-ref name="userinfoCheck_Session_Interceptor">
+					<param name="excludeMethods">login</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myDefaultStack" />
+
+		<!-- 如果未登陆 定义全局结果集 -->
+		<global-results>
+			<result name="noLogin">/login.jsp</result>
+			<result name="error">/error.jsp</result>
+		</global-results>
+
+	<!-- 全局错误页面 -->
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception" />
+		</global-exception-mappings>
+	</package>
+
+</struts>

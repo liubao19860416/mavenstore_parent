@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置登录的StoreAction -->
+	<package name="history" namespace="/" extends="commonPackage">
+		<action name="historyAction_*" class="cn.itcast.storemanage.web.action.HistoryAction"
+			method="{1}">
+			<!-- 配置校验用户是否登录的验证,没有登录的话,就返回登录页面 
+			<result name="noLogin">/login.jsp</result>
+			-->
+			
+			<!-- 一个action中有多个需要检验的函数 (xml校验)-->
+			<result name="input">/jsps/his/his.jsp</result>
+			
+			<!-- 先查询,最后再显示-->
+			<result name="listAllHsitories">/jsps/his/his.jsp</result>
+			<result name="listAllHsitoriesByPage">/jsps/his/his.jsp</result>
+		</action>
+	</package>
+	
+</struts>

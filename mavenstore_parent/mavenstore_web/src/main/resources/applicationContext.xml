@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/cache 
+	http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- 第一部分:系统基本配置 -->
+
+	<import resource="applicationContext-domain.xml" />
+	<import resource="applicationContext-dao.xml" />
+	<import resource="applicationContext-service.xml" />
+
+	<!-- 配置LoginAction相关信息 -->
+	<bean id="loginAction" class="cn.itcast.storemanage.web.action.LoginAction"
+		scope="prototype">
+		<property name="userinfoService" ref="userinfoService"></property>
+	</bean>
+
+	<!-- 配置StoreAction相关信息 -->
+	<bean id="storeAction" class="cn.itcast.storemanage.web.action.StoreAction"
+		scope="prototype">
+		<property name="storeService" ref="storeService"></property>
+	</bean>
+
+	<!-- 配置GoodsAction相关信息 -->
+	<bean id="goodsAction" class="cn.itcast.storemanage.web.action.GoodsAction"
+		scope="prototype">
+		<property name="goodsService" ref="goodsService"></property>
+	</bean>
+
+	<!-- 配置historyAction相关信息 -->
+	<bean id="historyAction" class="cn.itcast.storemanage.web.action.HistoryAction"
+		scope="prototype">
+		<property name="historyService" ref="historyService"></property>
+	</bean>
+
+	<!-- 声明一个拦截器,在struts2的配置文件中使用 -->
+	<bean id="userinfoCheck_Session_Interceptor"
+		class="cn.itcast.storemanage.web.interceptor.UserinfoCheck_Session_Interceptor">
+	</bean>
+
+</beans>

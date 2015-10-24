@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<!--系统自动进行加载 -->
+<validators>
+	<field name="name">
+		<field-validator type="requiredstring">
+			<message key="store.name.required"></message>
+		</field-validator>
+	</field>
+	<field name="addr">
+		<field-validator type="requiredstring">
+			<message key="store.addr.required"></message>
+		</field-validator>
+	</field>
+	<field name="manager">
+		<field-validator type="requiredstring">
+			<message key="store.manager.required"></message>
+		</field-validator>
+	</field>
+</validators>

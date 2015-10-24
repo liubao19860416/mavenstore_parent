@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置登录的StoreAction -->
+	<package name="store" namespace="/" extends="commonPackage">
+		<action name="storeAction_*" class="cn.itcast.storemanage.web.action.StoreAction"
+			method="{1}">
+			<result name="listAll">/jsps/store/store.jsp</result>
+			<result name="to_ListAllAction" type="redirectAction">storeAction_listAll
+			</result>
+			<!-- 一个action中有多个需要检验的函数,并且返回的位置不一样 -->
+			<result name="input">/jsps/store/edit.jsp</result>
+			<result name="addCheck_Input">/jsps/store/add.jsp</result>
+			
+			<!-- 配置校验用户是否登录的验证,没有登录的话,就返回登录页面
+			<result name="noLogin">/login.jsp</result>
+			 -->
+			
+			<!-- 配置下拉仓库列表显示的json数据查询成功的跳转地址,这个类型是从插件的配置文件中引用的类型 -->
+			<result name="ajaxlistSUCCESS" type="json"></result>
+		</action>
+	</package>
+	
+</struts>

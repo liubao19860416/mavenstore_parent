@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+	<tlib-version>1.0</tlib-version>
+	<short-name>L</short-name>
+	<uri>http://www.liubao.com/</uri>
+
+<!-- tag1-没有使用freemarker -->
+	<tag>
+		<name>pageTag</name>
+		<tag-class>cn.itcast.storemanage.web.tag.PageTag</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>pageNum</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+		<attribute>
+			<name>totalCount</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+		</attribute>
+		<attribute>
+			<name>numberPerPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+		<attribute>
+			<name>paramUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 这个类型需要注意一下 -->
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+<!-- tag21-使用freemarker -->
+	<tag>
+		<name>pageTagFreemarker</name>
+		<tag-class>cn.itcast.storemanage.freemarker.PagTagFreemarker</tag-class>
+		<body-content>scriptless</body-content>
+		<attribute>
+			<name>pageNum</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+		<attribute>
+			<name>totalCount</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+		</attribute>
+		<attribute>
+			<name>numberPerPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+		<attribute>
+			<name>paramUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 这个类型需要注意一下 -->
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<name>pageQueryUrl</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<!-- 这个类型需要注意一下 -->
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+<!-- 用户登录权限控制-使用freemarker -->
+	<tag>
+		<name>userLoginCheck</name>
+		<tag-class>cn.itcast.storemanage.freemarker.UserLoginCheckTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+	
+</taglib>
+

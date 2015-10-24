@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<!-- 配置登录的LoginAction -->
+	<package name="userinfo" namespace="/" extends="commonPackage">
+		<action name="loginAction_*" class="cn.itcast.storemanage.web.action.LoginAction" method="{1}">
+			<!-- 返回默认的登录页面 -->
+			<result name="input">/login.jsp</result>
+			<result>/jsps/main.jsp</result>
+			
+			<!-- 配置校验用户是否登录的验证,没有登录的话,就返回登录页面
+			<result name="noLogin">/login.jsp</result>
+			 -->
+		</action>
+	</package>
+	
+</struts>

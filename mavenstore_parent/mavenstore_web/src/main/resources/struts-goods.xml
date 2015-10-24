@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 配置登录的StoreAction -->
+	<package name="goods" namespace="/" extends="commonPackage">
+		<action name="goodsAction_*" class="cn.itcast.storemanage.web.action.GoodsAction"
+			method="{1}">
+			<!-- 一个action中有多个需要检验的函数 (xml校验)-->
+			<result name="input">/jsps/save/save.jsp</result>
+			
+			<!-- 这里是使用注解驱动,修改检验部通过的返回的input值为outGoods_Input -->
+			<!-- 在对应的Action中添加@InputConfig(resultName="outGoods_Input") -->
+			<result name="outGoods_Input">/jsps/out/out.jsp</result>
+			
+			<!-- 配置校验用户是否登录的验证,没有登录的话,就返回登录页面
+			<result name="noLogin">/login.jsp</result>
+			 -->
+			
+			<!-- 配置下拉仓库列表显示的json数据查询成功的跳转地址,这个类型是从插件的配置文件中引用的类型 -->
+			<result name="findGoodsByNmSuccess" type="json"></result>
+			
+			<!-- 先查询,再显示,下面包含了3中不同的显示方式-->
+			<result name="listAllGoods_ajax" type="json"></result>
+			<result name="listAllGoodsNames_ajax"  type="json"></result>
+			<result name="findUnitLike_ajjax"  type="json"></result>
+			
+			<!-- 出库或者入库商品信息成功后的显示页面 -->
+			<!-- 
+			<result name="saveGoodsSuccess">/jsps/store/remain.jsp</result>
+			 -->
+			<result name="saveGoodsSuccess" type="redirectAction">goodsAction_listAllGoods</result>
+			<result name="outGoodsSuccess" type="redirectAction">goodsAction_listAllGoods</result>
+		
+			<!-- 条件查询结果返回 -->
+			<result name="listSearchGoods">/jsps/store/remain.jsp</result>
+			
+			<!-- 先查询,最后再显示-->
+			<result name="listAllGoods">/jsps/store/remain.jsp</result>
+			<!-- 设置条件查询的显示结果集页面,和上面是同一个页面 -->
+			<!-- 
+			<result name="listSearchGoodsByPage">/jsps/store/remain.jsp</result>
+			 -->
+			 
+			<!-- 只是一个中转测试参数传递的测试方法 ,显示商品信息使用-->
+			<result name="showSave">/jsps/save/save.jsp</result>
+			<result name="showOut">/jsps/out/out.jsp</result>
+			<result name="showHis">/jsps/his/his.jsp</result>
+		</action>
+	</package>
+	
+	
+</struts>
